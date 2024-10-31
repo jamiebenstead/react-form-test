@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useState } from "react";
 
 type Person = {
   firstName: string;
@@ -25,12 +26,17 @@ function App() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const [persons, setPersons] = useState<Person[]>([]);
+
   const onSubmit = (data: Person) => {
-    console.log("data", data);
+    setPersons([...persons, data]);
+    reset();
   };
 
   return (
