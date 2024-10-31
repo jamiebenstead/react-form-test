@@ -35,7 +35,7 @@ function App() {
   const [persons, setPersons] = useState<Person[]>([]);
 
   const onSubmit = (data: Person) => {
-    setPersons([...persons, data]);
+    setPersons((prevPersons) => [...prevPersons, data]);
     reset();
   };
 
