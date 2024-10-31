@@ -8,7 +8,7 @@ type Person = {
   firstName: string;
   lastName: string;
   email: string;
-  age?: number;
+  age: number | null;
 };
 
 const schema = yup
@@ -19,7 +19,7 @@ const schema = yup
       .string()
       .email("Invalid email format")
       .required("Email is required"),
-    age: yup.number().optional(),
+    age: yup.number().nullable().defined(),
   })
   .required();
 
@@ -29,7 +29,10 @@ function App() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Person>({ resolver: yupResolver(schema) });
+  } = useForm<Person>({
+    resolver: yupResolver(schema),
+    defaultValues: { age: null },
+  });
 
   const [persons, setPersons] = useState<Person[]>([]);
 
