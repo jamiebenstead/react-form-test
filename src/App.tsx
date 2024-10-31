@@ -39,6 +39,27 @@ function App() {
     reset();
   };
 
+  const downloadCSV = () => {
+    const headers = ["First Name", "Last Name", "Email", "Age"];
+    const rows = persons.map(({ firstName, lastName, email, age }) => [
+      firstName,
+      lastName,
+      email,
+      age ?? "",
+    ]);
+    const csvContent = [headers, ...rows]
+      .map((row) => row.join(","))
+      .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "persons.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -84,6 +105,8 @@ function App() {
           ))}
         </tbody>
       </table>
+
+      <button onClick={downloadCSV}>Download CSV</button>
     </>
   );
 }
