@@ -28,9 +28,7 @@ function App() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  } = useForm<Person>({ resolver: yupResolver(schema) });
 
   const [persons, setPersons] = useState<Person[]>([]);
 
